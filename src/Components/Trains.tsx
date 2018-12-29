@@ -2,7 +2,11 @@ import React from "react";
 import fetchHoc from "fetch-hoc";
 import Train from "./Train";
 
-const Trains = ({ data }) => {
+interface IProps {
+  data: Array<{ uuid: string; name: string; speed: number }>;
+}
+
+const Trains = ({ data }: IProps) => {
   return (
     <div>
       <h1>Trains</h1>

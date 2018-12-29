@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
-import { Router } from "react-router";
+import { Route, Router } from "react-router";
 import createHistory from "history/createBrowserHistory";
-import { Route } from "react-router";
 import { Link, Switch } from "react-router-dom";
 import Trains from "./Components/Trains";
 

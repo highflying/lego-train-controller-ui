@@ -1,17 +1,21 @@
 import React from "react";
 import TrainStatus from "./TrainStatus";
 
-const setSpeed = (uuid, speed = 0) =>
+const setSpeed = (uuid: string, speed: number = 0) =>
   fetch(`http://rasp2.yottabrick.com:4000/v1/train/${uuid}?speed=${speed}`, {
     method: "PUT"
   });
 
-const action = (uuid, action) =>
+const action = (uuid: string, action: string) =>
   fetch(`http://rasp2.yottabrick.com:4000/v1/train/${uuid}?action=${action}`, {
     method: "PUT"
   });
 
-const Train = ({ uuid }) => {
+interface IProps {
+  uuid: string;
+}
+
+const Train = ({ uuid }: IProps) => {
   return (
     <div>
       <h2>Trains</h2>
