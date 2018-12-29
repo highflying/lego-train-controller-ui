@@ -1,6 +1,13 @@
 import React from "react";
 import fetchHoc from "fetch-hoc";
-import { compose, lifecycle, withProps } from "recompose";
+import { compose, withProps } from "recompose";
+import {
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+  CircularProgress
+} from "@material-ui/core";
 
 interface ITrainStatus {
   name: string;
@@ -33,22 +40,43 @@ const TrainStatus = ({ error, loading, uuid, prevData, data }: IProps) => {
     : { name: "", speed: 0, batteryLevel: 0, current: 0, rssi: 0, status: "" };
 
   return (
-    <div>
-      <div key={uuid}>Name:{train.name}</div>
-      <div>UUID: {uuid}</div>
-      <div>Speed: {train.speed}</div>
-      <div>Battery: {train.batteryLevel}%</div>
-      <div>Current: {train.current}A</div>
-      <div>RSSI: {train.rssi}</div>
-      <div>Status: {train.status}</div>
-      {loading && <h2>Loading</h2>}
-    </div>
+    <Table key={uuid}>
+      <TableBody>
+        <TableRow>
+          <TableCell>Name</TableCell>
+          <TableCell>{train.name}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>UUID</TableCell>
+          <TableCell>{uuid}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Speed</TableCell>
+          <TableCell>{train.speed}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Battery</TableCell>
+          <TableCell>{train.batteryLevel}%</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Current</TableCell>
+          <TableCell>{train.current}A</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>RSSI</TableCell>
+          <TableCell>{train.rssi}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Status</TableCell>
+          <TableCell>{train.status}</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
   );
 };
 
 const fetch = fetchHoc(
-  ({ uuid }: Partial<IProps>) =>
-    `http://rasp2.yottabrick.com:4000/v1/train/${uuid}`
+  ({ uuid }: Partial<IProps>) => `http://192.168.0.57:4000/v1/train/${uuid}`
 );
 const cache = withProps(({ data }: Partial<IProps>) => {
   if (data) {

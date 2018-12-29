@@ -1,6 +1,7 @@
 import React from "react";
 import fetchHoc from "fetch-hoc";
 import Train from "./Train";
+import { Grid } from "@material-ui/core";
 
 interface IProps {
   data: Array<{ uuid: string; name: string; speed: number }>;
@@ -8,13 +9,14 @@ interface IProps {
 
 const Trains = ({ data }: IProps) => {
   return (
-    <div>
-      <h1>Trains</h1>
+    <Grid container={true}>
       {(data || []).map(train => (
-        <Train key={train.uuid} uuid={train.uuid} />
+        <Grid md={6}>
+          <Train key={train.uuid} uuid={train.uuid} />
+        </Grid>
       ))}
-    </div>
+    </Grid>
   );
 };
 
-export default fetchHoc("http://rasp2.yottabrick.com:4000/v1/train")(Trains);
+export default fetchHoc("http://192.168.0.57:4000/v1/train")(Trains);
