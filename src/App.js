@@ -1,26 +1,26 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import { Router } from "react-router";
+import createHistory from "history/createBrowserHistory";
+import { Route } from "react-router";
+import { Link, Switch } from "react-router-dom";
+import Trains from "./Components/Trains";
+
+const history = createHistory();
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Router history={history}>
+        <div className="App">
+          <header className="App-header">
+            <Link to="/trains">Trains</Link>
+          </header>
+          <Switch>
+            <Route path="/trains" component={Trains} />
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }
