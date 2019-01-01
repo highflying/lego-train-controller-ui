@@ -3,7 +3,8 @@ import {
   Button,
   withStyles,
   createStyles,
-  WithStyles
+  WithStyles,
+  Grid
 } from "@material-ui/core";
 
 const setAction = (uuid: string, action: string) =>
@@ -25,14 +26,17 @@ const styles = createStyles({
 
 const ActionButton = ({ classes, uuid, name, action }: IProps) => {
   return (
-    <Button
-      className={classes.button}
-      variant="contained"
-      color="primary"
-      onClick={() => setAction(uuid, action)}
-    >
-      {name}
-    </Button>
+    <Grid xs={4} md={3}>
+      <Button
+        className={classes.button}
+        size="small"
+        variant="contained"
+        color="primary"
+        onClick={() => setAction(uuid, action)}
+      >
+        {name}
+      </Button>
+    </Grid>
   );
 };
 

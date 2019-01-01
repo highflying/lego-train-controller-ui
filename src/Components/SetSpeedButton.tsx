@@ -3,7 +3,8 @@ import {
   Button,
   createStyles,
   WithStyles,
-  withStyles
+  withStyles,
+  Grid
 } from "@material-ui/core";
 
 const setSpeed = (uuid: string, speed: number = 0) =>
@@ -24,14 +25,17 @@ interface IProps extends WithStyles<typeof styles> {
 
 const SetSpeedButton = ({ classes, uuid, speed }: IProps) => {
   return (
-    <Button
-      className={classes.button}
-      variant="contained"
-      color="primary"
-      onClick={() => setSpeed(uuid, speed)}
-    >
-      Set speed to {speed}
-    </Button>
+    <Grid xs={4} md={3}>
+      <Button
+        className={classes.button}
+        size="small"
+        variant="contained"
+        color="primary"
+        onClick={() => setSpeed(uuid, speed)}
+      >
+        Set speed to {speed}
+      </Button>
+    </Grid>
   );
 };
 

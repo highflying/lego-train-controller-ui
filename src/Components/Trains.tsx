@@ -1,22 +1,31 @@
 import React from "react";
 import fetchHoc from "fetch-hoc";
 import Train from "./Train";
-import { Grid } from "@material-ui/core";
+import { Grid, createStyles, WithStyles, withStyles } from "@material-ui/core";
+import classes from "*.module.scss";
 
-interface IProps {
+interface IProps extends WithStyles<typeof styles> {
   data: Array<{ uuid: string; name: string; speed: number }>;
 }
 
-const Trains = ({ data }: IProps) => {
+const styles = createStyles({
+  container: {
+    margin: 10
+  }
+});
+
+const Trains = ({ data, classes }: IProps) => {
   return (
-    <Grid container={true}>
+    <Grid container={true} spacing={16} xs={12} className={classes.container}>
       {(data || []).map(train => (
-        <Grid md={6}>
-          <Train key={train.uuid} uuid={train.uuid} />
+        <Grid xs={11} md={6} item={true}>
+          <Train key={train.uuid} uuid={train.uuid} name={train.name} />
         </Grid>
       ))}
     </Grid>
   );
 };
 
-export default fetchHoc("http://192.168.0.57:4000/v1/train")(Trains);
+export default fetchHoc("http://192.168.0.57:4000/v1/train")(
+  withStyles(styles)(Trains)
+);
