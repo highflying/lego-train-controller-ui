@@ -110,12 +110,10 @@ const MyLifecycle = <P extends {}>(
     }
 
     componentDidMount() {
-      console.log("DidMount");
       this.launchRefresh();
     }
 
     componentWillUnmount() {
-      console.log("WillMount");
       if (this.state.timeout) {
         clearTimeout(this.state.timeout);
       }
@@ -126,7 +124,6 @@ const MyLifecycle = <P extends {}>(
         return;
       }
 
-      console.log("Will launch");
       this.setState({
         timeout: setTimeout(async () => {
           await this.setState({ timeout: undefined });
