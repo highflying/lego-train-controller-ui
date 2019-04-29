@@ -1,38 +1,38 @@
-import React from "react";
-import {
-  Button,
-  withStyles,
-  createStyles,
-  WithStyles,
-  Grid
-} from "@material-ui/core";
+import React, { useCallback } from "react";
+import { Button, Grid } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
+import { setAction } from "../api";
 
-const setAction = (uuid: string, action: string) =>
-  fetch(`http://192.168.0.57:4000/v1/train/${uuid}?action=${action}`, {
-    method: "PUT"
-  });
-
-interface IProps extends WithStyles<typeof styles> {
-  uuid: string;
-  name: string;
-  action: string;
-}
-
-const styles = createStyles({
+const useStyles = makeStyles({
   button: {
     margin: 5
   }
 });
 
-const ActionButton = ({ classes, uuid, name, action }: IProps) => {
+const useAction = (uuid: string, action: string) =>
+  useCallback(
+    () => {
+      setAction(uuid, action);
+    },
+    [uuid, action]
+  );
+
+const ActionButton: React.SFC<{
+  uuid: string;
+  name: string;
+  action: string;
+}> = ({ uuid, name, action }) => {
+  const classes = useStyles();
+  const onClick = useAction(uuid, action);
+
   return (
-    <Grid xs={4} md={3}>
+    <Grid xs={4} md={3} item={true}>
       <Button
         className={classes.button}
         size="small"
         variant="contained"
         color="primary"
-        onClick={() => setAction(uuid, action)}
+        onClick={onClick}
       >
         {name}
       </Button>
@@ -40,4 +40,4 @@ const ActionButton = ({ classes, uuid, name, action }: IProps) => {
   );
 };
 
-export default withStyles(styles)(ActionButton);
+export default ActionButton;

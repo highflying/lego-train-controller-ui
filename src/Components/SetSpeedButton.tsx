@@ -1,37 +1,37 @@
-import React from "react";
-import {
-  Button,
-  createStyles,
-  WithStyles,
-  withStyles,
-  Grid
-} from "@material-ui/core";
+import React, { useCallback } from "react";
+import { Button, Grid } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
+import { setSpeed } from "../api";
 
-const setSpeed = (uuid: string, speed: number = 0) =>
-  fetch(`http://192.168.0.57:4000/v1/train/${uuid}?speed=${speed}`, {
-    method: "PUT"
-  });
-
-const styles = createStyles({
+const useStyles = makeStyles({
   button: {
     margin: 5
   }
 });
 
-interface IProps extends WithStyles<typeof styles> {
-  uuid: string;
-  speed: number;
-}
+const useSetSpeed = (uuid: string, speed: number) =>
+  useCallback(
+    () => {
+      setSpeed(uuid, speed);
+    },
+    [uuid, speed]
+  );
 
-const SetSpeedButton = ({ classes, uuid, speed }: IProps) => {
+const SetSpeedButton: React.SFC<{ uuid: string; speed: number }> = ({
+  uuid,
+  speed
+}) => {
+  const classes = useStyles();
+  const onClick = useSetSpeed(uuid, speed);
+
   return (
-    <Grid xs={4} md={3}>
+    <Grid xs={4} md={3} item={true}>
       <Button
         className={classes.button}
         size="small"
         variant="contained"
         color="primary"
-        onClick={() => setSpeed(uuid, speed)}
+        onClick={onClick}
       >
         Set speed to {speed}
       </Button>
@@ -39,4 +39,4 @@ const SetSpeedButton = ({ classes, uuid, speed }: IProps) => {
   );
 };
 
-export default withStyles(styles)(SetSpeedButton);
+export default SetSpeedButton;

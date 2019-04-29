@@ -1,24 +1,32 @@
-import React from "react";
-import fetchHoc from "fetch-hoc";
+import React, { useEffect, useState } from "react";
 import Train from "./Train";
-import { Grid, createStyles, WithStyles, withStyles } from "@material-ui/core";
-import classes from "*.module.scss";
+import { Grid } from "@material-ui/core";
+import { getTrains, ITrain } from "../api";
+import { makeStyles } from "@material-ui/styles";
 
-interface IProps extends WithStyles<typeof styles> {
-  data: Array<{ uuid: string; name: string; speed: number }>;
-}
-
-const styles = createStyles({
+const useStyles = makeStyles({
   container: {
     margin: 10
   }
 });
 
-const Trains = ({ data, classes }: IProps) => {
+const useTrains = (setTrains: (data: ITrain[]) => void) =>
+  useEffect(
+    () => {
+      getTrains().then(setTrains);
+    },
+    [setTrains]
+  );
+
+const Trains: React.SFC = () => {
+  const classes = useStyles();
+  const [trains, setTrains] = useState<ITrain[]>([]);
+  useTrains(setTrains);
+
   return (
-    <Grid container={true} spacing={16} xs={12} className={classes.container}>
-      {(data || []).map(train => (
-        <Grid xs={11} md={6} item={true}>
+    <Grid container={true} spacing={16} className={classes.container}>
+      {trains.map(train => (
+        <Grid xs={11} md={6} item={true} key={train.uuid}>
           <Train key={train.uuid} uuid={train.uuid} name={train.name} />
         </Grid>
       ))}
@@ -26,6 +34,4 @@ const Trains = ({ data, classes }: IProps) => {
   );
 };
 
-export default fetchHoc("http://192.168.0.57:4000/v1/train")(
-  withStyles(styles)(Trains)
-);
+export default Trains;

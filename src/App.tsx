@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import "./App.css";
 import { Route, Router } from "react-router";
-import createHistory from "history/createBrowserHistory";
+import { createBrowserHistory } from "history";
 import { Link, Switch } from "react-router-dom";
 import Trains from "./Components/Trains";
 import withRoot from "./withRoot";
@@ -14,8 +14,9 @@ import {
   withStyles,
   WithStyles
 } from "@material-ui/core";
+import Blah from "./Components/Blah";
 
-const history = createHistory();
+const history = createBrowserHistory();
 
 const styles = createStyles({
   appBar: {
@@ -36,11 +37,15 @@ const App = ({ classes }: WithStyles<typeof styles>) => (
             <Link to="/trains" className={classes.link}>
               <Button className={classes.link}>Trains</Button>
             </Link>
+            <Link to="/blah" className={classes.link}>
+              <Button className={classes.link}>Blah</Button>
+            </Link>
           </Typography>
         </Toolbar>
       </AppBar>
       <Switch>
         <Route path="/trains" component={Trains} />
+        <Route path="/blah" component={Blah} />
       </Switch>
     </div>
   </Router>
